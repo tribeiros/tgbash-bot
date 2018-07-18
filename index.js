@@ -13,9 +13,33 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '694599631:AAFNW4OuTNWNDsyab5paTnQnCxSWygmko2Y'
+  let botTelegram = '674388769:AAEOvWFcAA8C-8X-vkNKyGHkp-1B2j0KMbs' //test
   let { message } = req.body
-  let command = shell.exec(message.text)
+  //let command = shell.exec(message.text)
+  
+  // function to check bash on argument
+  function checkBash(param) {
+    if (param.indexOf('bash') == 0){
+      checkedBash = "bash is not allowed, use this session dude"
+    } else if (param.indexOf('exit') == 0){
+      checkedBash = "exit is not allowed, use this session dude"
+    } else if (param.indexOf('/') == 0){
+      checkedBash = "/ is not allowed"
+    } else if (param == 'cat'){
+      checkedBash = "just cat do nothing here"
+    } else if (param == 'echo'){
+      checkedBash = "echo what ?"
+    } else {
+      checkedBash = shell.exec(message.text, {silent:true}).stdout
+    }
+    return checkedBash
+  }
+
+  //function result
+  const command = checkBash(message.text)
+
+//stdout
+//console.log(command);
 
   axios
     .post(
