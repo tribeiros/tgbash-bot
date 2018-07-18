@@ -4,8 +4,6 @@ const bodyParser = require('body-parser')
 const axios = require('axios')
 const shell = require('shelljs')
 
-//const message = { "text":"bash" }
-
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -14,13 +12,14 @@ app.use(
 )
 
 app.post('/new-message', function(req, res) {
+  const apiTelegram = 'https://api.telegram.org/'
+  const botTelegram = '694599631:AAFNW4OuTNWNDsyab5paTnQnCxSWygmko2Y'
   const { message } = req.body
   const command = shell.exec(message.text)
-  console.log(message)
 
   axios
     .post(
-      'https://api.telegram.org/bot694599631:AAFNW4OuTNWNDsyab5paTnQnCxSWygmko2Y/sendMessage',
+      `${apiTelegram}bot${botTelegram}/sendMessage`,
       {
         chat_id: message.chat.id,
         text: command
