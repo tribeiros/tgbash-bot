@@ -1,8 +1,5 @@
 {
   "message": {
-            "text" : "bash",
-            "chat" : {
-              "id" : "1"
-            }
+            "text" : "bash"
          }
 }

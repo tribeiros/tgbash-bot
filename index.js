@@ -12,14 +12,14 @@ app.use(
 )
 
 app.post('/new-message', function(req, res) {
-  const apiTelegram = 'https://api.telegram.org/'
-  const botTelegram = '694599631:AAFNW4OuTNWNDsyab5paTnQnCxSWygmko2Y'
-  const { message } = req.body
-  const command = shell.exec(message.text)
+  let apiTelegram = 'https://api.telegram.org'
+  let botTelegram = '694599631:AAFNW4OuTNWNDsyab5paTnQnCxSWygmko2Y'
+  let { message } = req.body
+  let command = shell.exec(message.text)
 
   axios
     .post(
-      `${apiTelegram}bot${botTelegram}/sendMessage`,
+      `${apiTelegram}/bot${botTelegram}/sendMessage`,
       {
         chat_id: message.chat.id,
         text: command
