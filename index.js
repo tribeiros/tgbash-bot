@@ -15,7 +15,6 @@ app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
   let botTelegram = '674388769:AAEOvWFcAA8C-8X-vkNKyGHkp-1B2j0KMbs' //test
   let { message } = req.body
-  //let command = shell.exec(message.text)
   
   // function to check bash on argument
   function checkBash(param) {
