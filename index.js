@@ -13,7 +13,7 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '651571699:AAEJVuMi4jC3JUtfH7jC6J7vpgAzxwilF_w' //tribeiros_Bot
+  let botTelegram = '651571699:AAEJVuMi4jC3JUtfH7jC6J7vpgAzxwilF_w' //tribeiros_Bot telegram
   let { message } = req.body
   
   // function to check bash on argument
