@@ -13,7 +13,7 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '674388769:AAEOvWFcAA8C-8X-vkNKyGHkp-1B2j0KMbs' //test
+  let botTelegram = '651571699:AAEJVuMi4jC3JUtfH7jC6J7vpgAzxwilF_w' //tribeiros_Bot
   let { message } = req.body
   
   // function to check bash on argument
@@ -25,7 +25,7 @@ app.post('/new-message', function(req, res) {
     } else if (param.indexOf('/') == 0){
       checkedBash = "/ is not allowed"
     } else if (param == 'cat'){
-      checkedBash = "just cat do nothing here"
+      checkedBash = "just cat do nothing here - "
     } else if (param == 'echo'){
       checkedBash = "echo what ?"
     } else {
