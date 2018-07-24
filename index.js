@@ -13,29 +13,32 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '651571699:AAEJVuMi4jC3JUtfH7jC6J7vpgAzxwilF_w' //tribeiros_Bot telegram
+  let botTelegram = '637243061:AAG3H_87c2cU0KUhmAw0y-a0FTuaNNyP2Y0' //tribeirosRegexBot
   let { message } = req.body
+  message.text = message.text.replace(/\//, "")
   
   // function to check bash on argument
-  function checkBash(param) {
-    if (param.indexOf('bash') == 0){
-      checkedBash = "bash is not allowed, use this session dude"
-    } else if (param.indexOf('exit') == 0){
-      checkedBash = "exit is not allowed, use this session dude"
-    } else if (param.indexOf('/') == 0){
-      checkedBash = "/ is not allowed"
-    } else if (param == 'cat'){
-      checkedBash = "just cat do nothing here - "
-    } else if (param == 'echo'){
-      checkedBash = "echo what ?"
+function checkCommand(param) {
+  var containString = false;
+  var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab"];
+
+  for (s=0; s < arrayForbiddenCommands.length; s++){
+    if(arrayForbiddenCommands[s].toLowerCase() == param){
+      containString = true
+      return false;
     } else {
-      checkedBash = shell.exec(message.text, {silent:true}).stdout
+      containString = false
     }
-    return checkedBash
   }
 
+  if (containString == false){
+    checkedBash = shell.exec(message.text, {silent:true}).stdout
+  } 
+  return checkedBash
+}
+
   //function result
-  const command = checkBash(message.text)
+  const command = checkCommand(message.text)
 
 //stdout
 //console.log(command);
