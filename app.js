@@ -13,27 +13,34 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '637243061:AAG3H_87c2cU0KUhmAw0y-a0FTuaNNyP2Y0' //tribeirosRegexBot
+  let botTelegram = '625013581:AAHgjx7B2J_SsUooCDspohlxx-5N5hclQtw' //tribeirosCodeBot
   let { message } = req.body
   message.text = message.text.replace(/\//, "")
+  var botCommands = message.text.split(" ");
   
   // function to check bash on argument
 function checkCommand(param) {
   var containString = false;
   var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab"];
-  var clima = 'clima'
-
+  
   for (s=0; s < arrayForbiddenCommands.length; s++){
     if(arrayForbiddenCommands[s].toLowerCase() == param){
       containString = true
-      return false;
-    } else {
-      containString = false
+      return 'ops';
     }
   }
 
-  if (containString == false){
-    checkedBash = shell.exec(message.text, {silent:true}).stdout
+// Bot commands  
+  if (botCommands[0] === 'clima') {
+      checkedBash = shell.echo('http://wttr.in/' + weather[1])
+      return checkedBash
+  } else if (botCommands[0] === 'mafu') {
+      checkedBash = shell.echo('nhacoma').stdout
+      return  checkedBash
+  }
+
+  if (containString === false){
+    checkedBash = shell.exec(message.text, {silent:true})
   } 
   return checkedBash
 }
