@@ -13,34 +13,41 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   let apiTelegram = 'https://api.telegram.org'
-  let botTelegram = '625013581:AAHgjx7B2J_SsUooCDspohlxx-5N5hclQtw' //tribeirosCodeBot
+  let botTelegram = '651384060:AAEjQsDqPMW8MvgZpOIe9f17OVv9N4gHOuY' //tribeirosanycodeBot
   let { message } = req.body
-  message.text = message.text.replace(/\//, "")
+//message.text = message.text.replace(/\//, "")
   var botCommands = message.text.split(" ");
+  console.log(`command: ${botCommands}`)
   
   // function to check bash on argument
 function checkCommand(param) {
   var containString = false;
-  var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab"];
+  var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab","alias"];
+  var containCommand = false;
+  
   
   for (s=0; s < arrayForbiddenCommands.length; s++){
     if(arrayForbiddenCommands[s].toLowerCase() == param){
       containString = true
-      return 'ops';
+      console.log('not allowed')
+      return 'not allowed';
     }
   }
-
-// Bot commands  
+  
   if (botCommands[0] === 'clima') {
-      checkedBash = shell.echo('http://wttr.in/' + weather[1])
+      checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
       return checkedBash
-  } else if (botCommands[0] === 'mafu') {
-      checkedBash = shell.echo('nhacoma').stdout
-      return  checkedBash
+  } else if (botCommands === undefined ) {
+    checkedBash = 'telegram api undefined post'
+    return checkedBash
   }
 
   if (containString === false){
-    checkedBash = shell.exec(message.text, {silent:true})
+    if (shell.exec(message.text, {silent:true}).code === 0) {
+      checkedBash = shell.exec(message.text, {silent:false}).stdout
+    } else {
+      checkedBash = `/bin/sh: ${message.text} not found`
+    }
   } 
   return checkedBash
 }
@@ -60,7 +67,7 @@ function checkCommand(param) {
       }
     )
     .then(response => {
-      console.log('Message posted')
+      console.log('>>> Message posted')
       res.end('ok')
     })
     .catch(err => {
