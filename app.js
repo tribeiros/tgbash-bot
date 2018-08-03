@@ -15,9 +15,14 @@ app.post('/new-message', function(req, res) {
   const apiTelegram = 'https://api.telegram.org'
   const botTelegram = '651384060:AAEjQsDqPMW8MvgZpOIe9f17OVv9N4gHOuY' //tribeirosanycodeBot
   var { message } = req.body
-//message.text = message.text.replace(/\//, "")
+  console.log(message.text)
+  if (message.text === undefined || message.text === "/"){
+    message.text = "bot do telegram mandou mais um '/'"
+  }
+  
+  message.text = message.text.replace(/\//, "")
   var botCommands = message.text.split(" ");
-//var redirect = botCommands.indexOf(">")
+  //var redirect = botCommands.indexOf(">")
 //console.log(redirect)
   console.log(botCommands)
   console.log(`command: ${botCommands}`)
@@ -41,17 +46,24 @@ function checkCommand(param) {
   } else if (botCommands[0] === 'clima') {
       checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
       return checkedBash
+  } else if (botCommands[0] === 'kitten') {
+      checkedBash = shell.echo('http://placekitten.com/g/200/300')  
+      return checkedBash
+  } else if (botCommands[0] === 'start') {
+    checkedBash = 'Welcome to tgbash, a shell on telegram chat'
+    return checkedBash
   } else if (botCommands === undefined ) {
     checkedBash = 'telegram api undefined post'
     return checkedBash
   }
  
   if (containString === false){
-    if (shell.exec(message.text, {silent:true}).code === 0) {
-      checkedBash = shell.exec(message.text, {silent:false}).stdout
-    } else {
+    if (shell.exec(message.text, {silent:true}).code !== 0) {
       checkedBash = shell.exec(message.text, {silent:true}).stderr
+    } else {
+      checkedBash = shell.exec(message.text, {silent:false}).stdout
     }
+    return checkedBash
   } 
   return checkedBash
 }
@@ -62,11 +74,13 @@ function checkCommand(param) {
 //stdout
 //console.log(command);
   
-    if (command === ""){
-      command = 'succeeded output redirection'
-      console.log(command)
-    }
-
+  if (command === "" && botCommands.includes('>')){
+    console.log(command)
+    command = `succeeded redirection ${botCommands[1]} to ${botCommands[3]}`
+  } else if (command === "" && botCommands.includes('rm')){
+    command = `deleted ${botCommands[1]}`
+  }
+  
   axios
     .post(
       `${apiTelegram}/bot${botTelegram}/sendMessage`,

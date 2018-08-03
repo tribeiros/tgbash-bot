@@ -1,5 +1,0 @@
-const sh = require('shelljs')
-
-sh.exec('node --version', (code, output) => {
-  sh.echo(`exit code ${code}`)
-})
