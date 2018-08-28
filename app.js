@@ -23,11 +23,11 @@ app.post('/new-message', function(req, res) {
   message.text = message.text.replace(/\//, "")
   var botCommands = message.text.split(" ");
   //var redirect = botCommands.indexOf(">")
-//console.log(redirect)
+  //console.log(redirect)
   console.log(botCommands)
   console.log(`command: ${botCommands}`)
   
-  // function to check bash on argument
+// function to check bash on argument
 function checkCommand(param) {
   var containString = false;
   var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab","alias"];
@@ -37,8 +37,7 @@ function checkCommand(param) {
       containString = true
       console.log('not allowed')
       return 'not allowed';
-    }
-  }
+    }b
   
   if (botCommands[0] === 'clima' && botCommands[1] === undefined) {
       checkedBash = 'missing city argument'
@@ -76,7 +75,7 @@ function checkCommand(param) {
   
   if (command === "" && botCommands.includes('>')){
     console.log(command)
-    command = `succeeded redirection ${botCommands[1]} to ${botCommands[3]}`
+    command = `succeeded redirection ${botCommands[1]} to ${botCommansdr[3]}`
   } else if (command === "" && botCommands.includes('rm')){
     command = `deleted ${botCommands[1]}`
   }
