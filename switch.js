@@ -14,7 +14,6 @@ app.use(
 app.post('/new-message', function(req, res) {
   const apiTelegram = 'https://api.telegram.org'
   const botTelegram = '651384060:AAEjQsDqPMW8MvgZpOIe9f17OVv9N4gHOuY' //tribeirosanycodeBot
-  var { message } = req
   var { message } = req.body
   console.log(message.text)
   if (message.text === undefined || message.text === "/"){
@@ -43,18 +42,24 @@ function checkCommand(param) {
   if (botCommands[0] === 'clima' && botCommands[1] === undefined) {
       checkedBash = 'missing city argument'
       return checkedBash
-  } else if (botCommands[0] === 'clima') {
-      checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
-      return checkedBash
-  } else if (botCommands[0] === 'kitten') {
-      checkedBash = shell.echo('http://placekitten.com/g/200/300')  
-      return checkedBash
-  } else if (botCommands[0] === 'start') {
-    checkedBash = 'Welcome to tgbash, a shell on telegram chat'
-    return checkedBash
-  } else if (botCommands === undefined ) {
-    checkedBash = 'telegram api undefined post'
-    return checkedBash
+  } 
+  
+  switch (botCommands[0]) {
+    case 'clima':
+        checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
+        return checkedBash
+
+    case 'kitten':
+        checkedBash = shell.echo('http://placekitten.com/g/200/300')  
+        return checkedBash
+
+    case 'start':
+        checkedBash = 'Welcome to tgbash, a shell on telegram chat'
+        return checkedBash
+
+    case undefined:
+        checkedBash = 'telegram api undefined post'
+        return checkedBash
   }
  
   if (containString === false){

@@ -13,22 +13,21 @@ app.use(
 
 app.post('/new-message', function(req, res) {
   const apiTelegram = 'https://api.telegram.org'
-  const botTelegram = '651384060:AAEjQsDqPMW8MvgZpOIe9f17OVv9N4gHOuY' //tribeirosanycodeBot
-  var { message } = req
+  const botTelegram = '665534975:AAHPAz98GxljRQkBIrh66A9UU5hyx3skZG4' //tribeirosanycodeBot
   var { message } = req.body
   console.log(message.text)
   if (message.text === undefined || message.text === "/"){
     message.text = "bot do telegram mandou mais um '/'"
   }
-
+  
   message.text = message.text.replace(/\//, "")
   var botCommands = message.text.split(" ");
   //var redirect = botCommands.indexOf(">")
-  //console.log(redirect)
+//console.log(redirect)
   console.log(botCommands)
   console.log(`command: ${botCommands}`)
-
-// function to check bash on argument
+  
+  // function to check bash on argument
 function checkCommand(param) {
   var containString = false;
   var arrayForbiddenCommands = ["bash", "exit", "cat", "echo","bc","crontab","alias"];
@@ -39,24 +38,31 @@ function checkCommand(param) {
       console.log('not allowed')
       return 'not allowed';
     }
+  }
   
   if (botCommands[0] === 'clima' && botCommands[1] === undefined) {
       checkedBash = 'missing city argument'
       return checkedBash
-  } else if (botCommands[0] === 'clima') {
-      checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
-      return checkedBash
-  } else if (botCommands[0] === 'kitten') {
-      checkedBash = shell.echo('http://placekitten.com/g/200/300')  
-      return checkedBash
-  } else if (botCommands[0] === 'start') {
-    checkedBash = 'Welcome to tgbash, a shell on telegram chat'
-    return checkedBash
-  } else if (botCommands === undefined ) {
-    checkedBash = 'telegram api undefined post'
-    return checkedBash
   }
- 
+
+  switch (botCommands[0]){
+    case 'clima':
+        checkedBash = shell.echo('http://wttr.in/' + botCommands[1]).stdout
+        return checkedBash
+
+    case 'kitten':
+        checkedBash = shell.echo('http://placekitten.com/g/200/300')  
+        return checkedBash
+
+    case 'start':
+        checkedBash = 'Welcome to tgbash, a shell on telegram chat'
+        return checkedBash
+
+    case undefined:
+        checkedBash = 'telegram api undefined post'
+        return checkedBash
+  }
+
   if (containString === false){
     if (shell.exec(message.text, {silent:true}).code !== 0) {
       checkedBash = shell.exec(message.text, {silent:true}).stderr
@@ -76,7 +82,7 @@ function checkCommand(param) {
   
   if (command === "" && botCommands.includes('>')){
     console.log(command)
-    command = `succeeded redirection ${botCommands[1]} to ${botCommansdr[3]}`
+    command = `succeeded redirection ${botCommands[1]} to ${botCommands[3]}`
   } else if (command === "" && botCommands.includes('rm')){
     command = `deleted ${botCommands[1]}`
   }
